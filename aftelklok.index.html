@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aftelklok</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        font-family: Arial, sans-serif;
+        color: white;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 3vw;
+        margin-bottom: 40px;
+    }
+
+    #countdown {
+        font-size: 5vw;
+        font-weight: bold;
+    }
+
+    #fullscreenBtn {
+        position: absolute;
+        bottom: 20px;
+        padding: 10px 20px;
+        border: none;
+        background: white;
+        color: #2a5298;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    #fullscreenBtn:hover {
+        opacity: 0.8;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Aftellen naar vrijdag 20 februari 2026 - 12:00 uur</h1>
+<div id="countdown">Laden...</div>
+<button id="fullscreenBtn" onclick="openFullscreen()">Fullscreen</button>
+
+<script>
+    const targetDate = new Date(2026, 1, 20, 12, 0, 0).getTime();
+    const countdownElement = document.getElementById("countdown");
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            countdownElement.innerHTML = "🎉 Het is zover!";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML =
+            days + " dagen " +
+            hours + " uur " +
+            minutes + " minuten " +
+            seconds + " seconden";
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    function openFullscreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+    }
+
+    // Probeer automatisch fullscreen te openen
+    window.onload = function() {
+        setTimeout(() => {
+            openFullscreen();
+        }, 500);
+    };
+</script>
+
+</body>
+</html>
